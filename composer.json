@@ -9,7 +9,7 @@
     "repositories": [
         {"type": "composer", "url": "http://toran.moetansy.com/repo/private/"},
         {"type": "composer", "url": "http://satis.moetansy.com/"},
-        {"packagist": false}
+        {"packagist": true}
     ],
     "require": {
         "moontoast/math": "~1.1",
