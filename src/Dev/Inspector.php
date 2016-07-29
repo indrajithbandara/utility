@@ -32,6 +32,8 @@ class Inspector
 
     public static function exceptionHandler(\Exception $exception)
     {
+
+
         Logger::instance()->error(__METHOD__, [
             'exception' => $exception,
         ]);
@@ -60,9 +62,13 @@ HTML;
             $exception->getFile(),
             $exception->getLine()
         );
-        if( php_sapi_name() !== 'cli' )  header('Content-Type: text/html; charset=utf-8');
+        if( php_sapi_name() !== 'cli' ){
+            header('Content-Type: text/html; charset=utf-8');
+            echo $msg;
+//            echo sprintf(' Message: %s File: %s on: %s', $exception->getMessage(),$exception->getFile(), $exception->getLine());
+        }
         
-        echo $msg;
+
         exit(255);
     }
 
