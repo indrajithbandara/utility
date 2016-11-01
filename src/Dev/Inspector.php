@@ -34,9 +34,6 @@ class Inspector
     {
 
 
-        Logger::instance()->error(__METHOD__, [
-            'exception' => $exception,
-        ]);
 
         $msg = <<<HTML
 <h2>PHP Fatal error</h2>
@@ -67,7 +64,9 @@ HTML;
             echo $msg;
 //            echo sprintf(' Message: %s File: %s on: %s', $exception->getMessage(),$exception->getFile(), $exception->getLine());
         }
-        
+        Logger::instance()->error(__METHOD__, [
+            'exception' => $msg,
+        ]);
 
         exit(255);
     }
