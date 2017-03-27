@@ -6,10 +6,10 @@ class Inspector
 {
     public static function errorHandler($errno, $errstr, $errfile, $errline)
     {
-        if (!(error_reporting() & $errno)) {
-            // This error code is not included in error_reporting
-            return null;
-        }
+//        if (!(error_reporting() & $errno)) {
+//            // This error code is not included in error_reporting
+//            return null;
+//        }
         $msg = "<xmp>\n%s: %s in %s:%s\nStack trace:\n%s\n</xmp>";
         $trace = debug_backtrace();
         array_shift($trace); //shift callstack of calling this
@@ -22,7 +22,17 @@ class Inspector
             implode("\n", self::formatTrace($trace))
         );
 
-        echo $msg;
+
+//        if( php_sapi_name() !== 'cli' ){
+//            header('Content-Type: text/html; charset=utf-8');
+//            echo $msg;
+////            echo sprintf(' Message: %s File: %s on: %s', $exception->getMessage(),$exception->getFile(), $exception->getLine());
+//        }
+
+        Logger::instance()->error(__METHOD__, [
+            'exception' => $msg,
+        ]);
+//        echo $msg;
 
         exit(255);
         /* Don't execute PHP internal error handler */
@@ -32,9 +42,6 @@ class Inspector
 
     public static function exceptionHandler(\Exception $exception)
     {
-
-
-
         $msg = <<<HTML
 <h2>PHP Fatal error</h2>
 <xmp>Uncaught exception '%s' with message '%s' in %s:%s
@@ -59,11 +66,11 @@ HTML;
             $exception->getFile(),
             $exception->getLine()
         );
-        if( php_sapi_name() !== 'cli' ){
-            header('Content-Type: text/html; charset=utf-8');
-            echo $msg;
-//            echo sprintf(' Message: %s File: %s on: %s', $exception->getMessage(),$exception->getFile(), $exception->getLine());
-        }
+//        if( php_sapi_name() !== 'cli' ){
+//            header('Content-Type: text/html; charset=utf-8');
+//            echo $msg;
+////            echo sprintf(' Message: %s File: %s on: %s', $exception->getMessage(),$exception->getFile(), $exception->getLine());
+//        }
         Logger::instance()->error(__METHOD__, [
             'exception' => $msg,
         ]);
