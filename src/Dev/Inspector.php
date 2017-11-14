@@ -40,7 +40,7 @@ class Inspector
     }
 
 
-    public static function exceptionHandler(\Exception $exception)
+    public static function exceptionHandler( $exception)
     {
         $msg = <<<HTML
 <h2>PHP Fatal error</h2>
@@ -51,6 +51,14 @@ class Inspector
 </xmp>
 <pre>
 HTML;
+
+        if(false == ($exception instanceof \Exception) ){
+            Logger::instance()->error(__METHOD__, [
+                'exception' => $exception,
+            ]);
+            exit(255);
+        }
+
 
         $trace = $exception->getTrace();
 
